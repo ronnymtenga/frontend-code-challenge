@@ -2,10 +2,7 @@ import { motion } from "framer-motion"
 import type { PropsWithChildren } from "react"
 import { twJoin } from "tailwind-merge"
 
-const DynamicBody = ({
-	children,
-	className,
-}: PropsWithChildren & { className?: string }) => {
+const DynamicBody = ({children, className,}: PropsWithChildren & { className?: string }) => {
 	return (
 		<motion.div
 			layoutId="dynamicBody"
