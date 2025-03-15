@@ -1,37 +1,27 @@
-# Keaz Frontend Code Challenge Solution
+Keaz Frontend Code Challenge Solution
 
-## Approach
+Approach
 
-For this challenge, I focused on creating a clean, user-friendly, and responsive dashboard that visualizes the key metrics provided in the data. Here's how I approached the implementation:
+For this challenge, my main focus was making the data as clearly visualized as possible, with minimalist animations partly because I am a beginner but also to make sure the animations do not take the focus away from the limited amount of data (I think the less the data volume the more creative one should be at visualizing the insights of that data but in this case, I think the data provided was of very low dimensions so I decided to focus on clarity over complicated visualizations)
 
-### Visualizing the Metrics
+Visualizing the Metrics
 
-I chose to use Recharts, a composable charting library for React, to implement the visualizations. This library offers a good balance between flexibility and ease of use, allowing for customized charts while keeping the implementation straightforward.
+I chose to a react library called Recharts, to implement the visualizations. I literally just looked up which the simplest library I could use that would still offer flexibility and this was a good fit. Its quite straightforward and keeps with my minimalist approach.
 
 For the dashboard structure, I implemented:
-- Four summary cards at the top to provide a quick overview of the key metrics
-- A bar chart to display daily contacts data
-- A pie chart to visualize the distribution of contact sources
+- Two summary cards, for total contacts and shopify reveneu. There was some trend data provided (this week and last week) so I showed the total with a percentage comparison next to it and with last week's total as a footer. If I had more data, I would implement a minimal scrollable line graph visualizing the time series in a simple accessible way. 
+- A bar chart to display daily contacts data. Again because I only had access to this week's and last week's data, I thought the side by side bar graph was the simplest way of showing the trend from this week and last week. 
+- A pie chart to visualize the distribution of contact sources. This was my least favorite visualization because I kept refactoring redundant information and also it was hard deciding which activeRender to use. But I think the final implementation was pretty clear and minimalist.
 
-### Responsive Design
+Responsive Design
 
 The dashboard layout is fully responsive, using CSS Grid with different column configurations for different screen sizes:
-- On mobile, cards and charts stack vertically (single column)
-- On medium screens, the summary cards use a two-column layout
-- On large screens, the summary cards use a four-column layout and the charts display side-by-side
+- On medium and large screens, the summary cards are arranged in the same row with the charts stack vertically (single column) beneath.
+- On mobile, the summary cards and charts are displayed as stacked vertically.. I also implement scrolling to make sure overflow is still captured inside the dashboard container.
 
-This ensures the dashboard is usable and visually appealing on both desktop and mobile devices without compromising the data visualization's clarity.
 
-### Interactive Elements & Trends
+I kept the design clean and straightforward, using a white card-based layout against a light background for good contrast. This approach ensures the data visualizations are the focus of the dashboard while maintaining a professional appearance. The color scheme is consistent throughout, using primary blue and green for trends and a distinct color palette for the pie chart segments.
 
-To display trends and add interactivity:
-- Both summary cards and the bar chart allow toggling between "This Week" and "Last Week" data to show changes over time
-- The summary cards display percentage changes, color-coded green for positive changes and red for negative ones
-- The pie chart features interactive segments that expand to show detailed information when hovered over
-- Smooth transitions are applied to the charts to enhance the user experience when toggling between data sets
-
-### Design Choices
-
-I kept the design clean and straightforward, using a white card-based layout against a light background for good contrast. This approach ensures the data visualizations are the focus of the dashboard while maintaining a professional appearance. The color scheme is consistent throughout, using primary blue for interactive elements and a distinct color palette for the pie chart segments.
+Conclusion
 
 In implementing this solution, I aimed to create a dashboard that not only meets the technical requirements but also delivers a positive user experience with clear data visualization and intuitive interactions. 

@@ -46,7 +46,7 @@ export const clientLoader = async () => {
 }
 
 // Colors for the charts
-const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#6366F1'];
+const COLORS = ['#FF7F0E', '#D62728', '#8B5CF6', '#FC4F', '#A1AF61', '#3B82F6', '#10B981'];
 
 // Custom Active Shape for PieChart to show detailed info on hover
 const renderActiveShape = (props: any) => {
@@ -279,12 +279,12 @@ const Dashboard = () => {
 									<Bar 
 										dataKey="lastWeek" 
 										name="Last Week" 
-										fill={COLORS[1]} 
+										fill={COLORS[6]} 
 									/>
 									<Bar 
 										dataKey="thisWeek" 
 										name="This Week" 
-										fill={COLORS[0]} 
+										fill={COLORS[5]} 
 									/>
 								</BarChart>
 							</ResponsiveContainer>
