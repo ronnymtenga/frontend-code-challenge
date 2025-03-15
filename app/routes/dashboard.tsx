@@ -1,5 +1,5 @@
 import { useLoaderData } from "react-router"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { 
 	BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 	PieChart, Pie, Cell, Sector
@@ -46,7 +46,7 @@ export const clientLoader = async () => {
 }
 
 // Colors for the charts
-const COLORS = ['#FF7F0E', '#D62728', '#8B5CF6', '#FC4F', '#A1AF61', '#3B82F6', '#10B981'];
+const COLORS = ['#8B5CF6', '#D62728', '#10B981', '#FC4F', '#FF7F0E', '#3B82F6', '#10B981'];
 
 // Custom Active Shape for PieChart to show detailed info on hover
 const renderActiveShape = (props: any) => {
@@ -135,6 +135,25 @@ const itemVariants = {
 const Dashboard = () => {
 	const data = useLoaderData<typeof clientLoader>();
 	const [activeIndex, setActiveIndex] = useState(-1);
+	const [isMobile, setIsMobile] = useState(false);
+	
+	// Handle responsive sizing
+	useEffect(() => {
+		const checkIfMobile = () => {
+			setIsMobile(window.innerWidth < 640);
+		};
+		
+		// Initial check
+		checkIfMobile();
+		
+		// Add event listener
+		window.addEventListener('resize', checkIfMobile);
+		
+		// Clean up
+		return () => {
+			window.removeEventListener('resize', checkIfMobile);
+		};
+	}, []);
 	
 	// Format contact data for the bar chart
 	const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -159,23 +178,60 @@ const Dashboard = () => {
 		setActiveIndex(index);
 	};
 	
-	// Custom Legend component for Bar Chart
+	// Custom Legend component for Bar Chart - Improved for mobile
 	const CustomBarChartLegend = (props: any) => {
 		const { payload } = props;
 		
 		return (
-			<div className="flex justify-center items-center gap-4 mt-2">
+			<div className="flex flex-wrap justify-center items-center gap-2 sm:gap-4 mt-1 sm:mt-2 px-1">
 				{payload.map((entry: any, index: number) => (
-					<div key={`legend-item-${index}`} className="flex items-center">
+					<div key={`legend-item-${index}`} className="flex items-center px-2 py-1 bg-gray-50 rounded-full">
 						<div 
-							className="w-3 h-3 rounded-full mr-2"
+							className="w-2.5 h-2.5 rounded-full mr-1.5"
 							style={{ backgroundColor: entry.color }}
 						></div>
-						<span className="text-sm text-gray-700">{entry.value}</span>
+						<span className="text-xs sm:text-sm text-gray-700 font-medium">{entry.value}</span>
 					</div>
 				))}
 			</div>
 		);
+	};
+
+	// Custom tooltip component for bar chart
+	const CustomBarTooltip = ({ active, payload, label }: any) => {
+		if (active && payload && payload.length) {
+			// Calculate percentage change between this week and last week
+			const thisWeekValue = payload.find((entry: any) => entry.name === "This Week")?.value || 0;
+			const lastWeekValue = payload.find((entry: any) => entry.name === "Last Week")?.value || 0;
+			const percentChange = lastWeekValue ? ((thisWeekValue - lastWeekValue) / lastWeekValue * 100).toFixed(1) : "N/A";
+			const isIncrease = thisWeekValue > lastWeekValue;
+			
+			return (
+				<div className="bg-white p-2.5 border border-gray-200 shadow-md rounded-md text-xs">
+					<p className="font-semibold text-center pb-1.5 border-b border-gray-100 text-sm">{label}</p>
+					{payload.map((entry: any, index: number) => (
+						<div key={index} className="flex items-center justify-between mt-1.5 gap-4">
+							<div className="flex items-center">
+								<div 
+									className="w-2.5 h-2.5 rounded-full mr-1.5"
+									style={{ backgroundColor: entry.color }}
+								></div>
+								<span className="font-medium">{entry.name}:</span>
+							</div>
+							<span className="font-semibold">{entry.value}</span>
+						</div>
+					))}
+					{lastWeekValue > 0 && (
+						<div className="mt-2 pt-1 border-t border-gray-100 text-center">
+							<span className={`font-medium ${isIncrease ? 'text-green-600' : 'text-red-600'}`}>
+								{isIncrease ? '+' : ''}{percentChange}% vs last week
+							</span>
+						</div>
+					)}
+				</div>
+			);
+		}
+		return null;
 	};
 
 	return (
@@ -249,13 +305,13 @@ const Dashboard = () => {
 				className="grid grid-cols-1 gap-8 mt-2 sm:mt-4"
 				variants={containerVariants}
 			>
-				{/* Contacts Bar Chart */}
+				{/* Contacts Bar Chart - Revamped for mobile */}
 				<motion.div 
-					className="bg-white p-3 sm:p-4 rounded-lg shadow-md mx-auto w-full max-w-4xl"
+					className="bg-white p-2 sm:p-4 rounded-lg shadow-md mx-auto w-full max-w-4xl"
 					variants={itemVariants}
 					whileHover={{ boxShadow: "0 10px 15px rgba(0,0,0,0.1)" }}
 				>
-					<h2 className="text-base sm:text-lg font-semibold mb-2 sm:mb-4">Daily Contacts</h2>
+					<h2 className="text-base sm:text-lg font-semibold mb-1 sm:mb-3 px-1">Daily Contacts</h2>
 					<AnimatePresence mode="wait">
 						<motion.div 
 							key="contactsChart"
@@ -263,28 +319,41 @@ const Dashboard = () => {
 							animate={{ opacity: 1 }}
 							exit={{ opacity: 0 }}
 							transition={{ duration: 0.3 }}
-							className="h-48 sm:h-56 md:h-64"
+							className="h-40 sm:h-56 md:h-64 -mx-2 sm:mx-0"
 						>
 							<ResponsiveContainer width="100%" height="100%">
 								<BarChart
 									data={contactsData}
-									margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-									barGap={0}
+									margin={{ top: 5, right: 5, left: 0, bottom: 5 }}
+									barGap={2}
+									barSize={isMobile ? 15 : 20}
 								>
-									<CartesianGrid vertical={false} horizontal={true} />
-									<XAxis dataKey="day" />
-									<YAxis />
-									<Tooltip />
+									<CartesianGrid vertical={false} strokeDasharray="3 3" stroke="#f0f0f0" />
+									<XAxis 
+										dataKey="day" 
+										tick={{fontSize: isMobile ? 10 : 12}}
+										tickMargin={5}
+										axisLine={{ stroke: '#e0e0e0' }}
+									/>
+									<YAxis 
+										width={30} 
+										tick={{fontSize: isMobile ? 10 : 12}}
+										tickFormatter={(value) => value >= 1000 ? `${value/1000}k` : value}
+										axisLine={{ stroke: '#e0e0e0' }}
+									/>
+									<Tooltip content={<CustomBarTooltip />} />
 									<Legend content={<CustomBarChartLegend />} />
 									<Bar 
 										dataKey="lastWeek" 
 										name="Last Week" 
-										fill={COLORS[6]} 
+										fill="#94A3B8" 
+										radius={[2, 2, 0, 0]}
 									/>
 									<Bar 
 										dataKey="thisWeek" 
 										name="This Week" 
-										fill={COLORS[5]} 
+										fill="#3B82F6" 
+										radius={[2, 2, 0, 0]}
 									/>
 								</BarChart>
 							</ResponsiveContainer>
