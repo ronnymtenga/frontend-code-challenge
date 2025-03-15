@@ -236,14 +236,14 @@ const Dashboard = () => {
 
 	return (
 		<motion.div 
-			className="flex flex-col w-full h-full overflow-y-auto gap-4 sm:gap-6 p-3 sm:p-4 pb-16"
+			className="flex flex-col w-full h-full overflow-y-auto gap-4 sm:gap-6 p-3 sm:p-4 pb-16 bg-gray-50"
 			initial="hidden"
 			animate="visible"
 			variants={containerVariants}
 		>
 			<header className="flex justify-between items-center mb-4">
 				<motion.h1 
-					className="text-xl sm:text-2xl font-bold"
+					className="text-xl sm:text-2xl font-bold text-gray-800"
 					variants={itemVariants}
 				>
 					Dashboard
@@ -269,14 +269,14 @@ const Dashboard = () => {
 			>
 				{/* Total Contacts Card */}
 				<motion.div 
-					className="bg-white p-3 sm:p-4 rounded-lg shadow-md w-full h-full flex flex-col"
+					className="bg-white p-3 sm:p-4 rounded-lg shadow-md border border-gray-100 w-full h-full flex flex-col hover:shadow-lg transition-shadow duration-300"
 					variants={itemVariants}
-					whileHover={{ scale: 1.02, boxShadow: "0 10px 15px rgba(0,0,0,0.1)" }}
+					whileHover={{ scale: 1.01, boxShadow: "0 10px 15px rgba(0,0,0,0.08)" }}
 				>
-					<h2 className="text-gray-500 text-sm">Total Contacts</h2>
+					<h2 className="text-gray-500 text-sm font-medium">Total Contacts</h2>
 					<div className="flex items-end mt-auto mb-auto py-2">
-						<span className="text-2xl font-bold">{totalContactsThisWeek}</span>
-						<span className={`ml-2 text-sm ${Number(contactsChange) > 0 ? 'text-green-500' : 'text-red-500'}`}>
+						<span className="text-2xl font-bold text-gray-800">{totalContactsThisWeek}</span>
+						<span className={`ml-2 text-sm ${Number(contactsChange) > 0 ? 'text-green-600 bg-green-50 px-1.5 py-0.5 rounded' : 'text-red-600 bg-red-50 px-1.5 py-0.5 rounded'}`}>
 							{Number(contactsChange) > 0 ? `+${contactsChange}%` : `${contactsChange}%`}
 						</span>
 					</div>
@@ -285,18 +285,18 @@ const Dashboard = () => {
 				
 				{/* Revenue Card */}
 				<motion.div 
-					className="bg-white p-3 sm:p-4 rounded-lg shadow-md w-full"
+					className="bg-white p-3 sm:p-4 rounded-lg shadow-md border border-gray-100 w-full h-full flex flex-col hover:shadow-lg transition-shadow duration-300"
 					variants={itemVariants}
-					whileHover={{ scale: 1.02, boxShadow: "0 10px 15px rgba(0,0,0,0.1)" }}
+					whileHover={{ scale: 1.01, boxShadow: "0 10px 15px rgba(0,0,0,0.08)" }}
 				>
-					<h2 className="text-gray-500 text-sm">Shopify Revenue</h2>
+					<h2 className="text-gray-500 text-sm font-medium">Shopify Revenue</h2>
 					<div className="flex items-end mt-2">
-						<span className="text-2xl font-bold">${data.shopifyRevenue.thisWeek.toLocaleString()}</span>
-						<span className={`ml-2 text-sm ${Number(revenueChange) > 0 ? 'text-green-500' : 'text-red-500'}`}>
+						<span className="text-2xl font-bold text-gray-800">${data.shopifyRevenue.thisWeek.toLocaleString()}</span>
+						<span className={`ml-2 text-sm ${Number(revenueChange) > 0 ? 'text-green-600 bg-green-50 px-1.5 py-0.5 rounded' : 'text-red-600 bg-red-50 px-1.5 py-0.5 rounded'}`}>
 							{Number(revenueChange) > 0 ? `+${revenueChange}%` : `${revenueChange}%`}
 						</span>
 					</div>
-					<p className="mt-2 text-xs text-gray-500">vs last week (${data.shopifyRevenue.lastWeek.toLocaleString()})</p>
+					<p className="mt-auto text-xs text-gray-500">vs last week (${data.shopifyRevenue.lastWeek.toLocaleString()})</p>
 				</motion.div>
 			</motion.div>
 			
@@ -307,11 +307,11 @@ const Dashboard = () => {
 			>
 				{/* Contacts Bar Chart - Revamped for mobile */}
 				<motion.div 
-					className="bg-white p-2 sm:p-4 rounded-lg shadow-md mx-auto w-full max-w-4xl"
+					className="bg-white p-2 sm:p-4 rounded-lg shadow-md border border-gray-100 mx-auto w-full max-w-4xl hover:shadow-lg transition-shadow duration-300"
 					variants={itemVariants}
-					whileHover={{ boxShadow: "0 10px 15px rgba(0,0,0,0.1)" }}
+					whileHover={{ boxShadow: "0 10px 15px rgba(0,0,0,0.08)" }}
 				>
-					<h2 className="text-base sm:text-lg font-semibold mb-1 sm:mb-3 px-1">Daily Contacts</h2>
+					<h2 className="text-base sm:text-lg font-semibold mb-1 sm:mb-3 px-1 text-gray-800">Daily Contacts</h2>
 					<AnimatePresence mode="wait">
 						<motion.div 
 							key="contactsChart"
@@ -363,12 +363,12 @@ const Dashboard = () => {
 				
 				{/* Contact Sources Pie Chart */}
 				<motion.div 
-					className="bg-white p-3 sm:p-4 rounded-lg shadow-md mx-auto w-full max-w-4xl overflow-hidden"
+					className="bg-white p-3 sm:p-4 rounded-lg shadow-md border border-gray-100 mx-auto w-full max-w-4xl overflow-hidden hover:shadow-lg transition-shadow duration-300"
 					variants={itemVariants}
-					whileHover={{ boxShadow: "0 10px 15px rgba(0,0,0,0.1)" }}
+					whileHover={{ boxShadow: "0 10px 15px rgba(0,0,0,0.08)" }}
 				>
 					<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-2 sm:mb-3">
-						<h2 className="text-base sm:text-lg font-semibold">Contact Sources</h2>
+						<h2 className="text-base sm:text-lg font-semibold text-gray-800">Contact Sources</h2>
 					</div>
 					
 					<div className="flex flex-col justify-center">
@@ -451,21 +451,23 @@ const Dashboard = () => {
 							{data.contactSources.map((source, index) => (
 								<div 
 									key={index} 
-									className={`flex items-center px-2 py-1 ${
-										activeIndex === index ? 'bg-gray-50 rounded' : ''
+									className={`flex items-center px-2.5 py-1.5 rounded-md transition-all duration-200 ${
+										activeIndex === index 
+											? 'bg-gray-100 shadow-sm' 
+											: 'hover:bg-gray-50'
 									}`}
 									onMouseEnter={() => setActiveIndex(index)}
 									onMouseLeave={() => setActiveIndex(-1)}
 								>
 									<div 
-										className="w-3 h-3 rounded-full mr-2"
+										className="w-3 h-3 rounded-full mr-2 shadow-sm"
 										style={{ backgroundColor: COLORS[index % COLORS.length] }}
 									></div>
 									<span 
-										className="text-sm truncate" 
+										className="text-sm text-gray-700 truncate" 
 										title={source.source}
 										style={{ 
-											fontWeight: activeIndex === index ? 700 : 500 
+											fontWeight: activeIndex === index ? 600 : 500 
 										}}
 									>
 										{source.source}
