@@ -20,7 +20,7 @@ The dashboard layout is fully responsive, using CSS Grid with different column c
 - On mobile, the summary cards and charts are displayed as stacked vertically.. I also implement scrolling to make sure overflow is still captured inside the dashboard container.
 
 
-I kept the design clean and straightforward, using a white card-based layout against a light background for good contrast. This approach ensures the data visualizations are the focus of the dashboard while maintaining a professional appearance. The color scheme is consistent throughout, using primary blue and green for trends and a distinct color palette for the pie chart segments.
+I kept the design clean and straightforward, using a white card-based layout against a light background with border shadows and hover animation for good contrast. This approach ensures the data visualizations are the focus of the dashboard while maintaining a professional appearance. The color scheme is consistent throughout, using primary blue and gray for trends and a distinct color palette for the pie chart segments.
 
 Conclusion
 
